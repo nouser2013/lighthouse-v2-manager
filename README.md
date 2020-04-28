@@ -1,5 +1,7 @@
 # Manager for V2 Lighthouses by Valve/HTC
-This python script helps you switch your Steam HMD lighthouses V2 on and into stand-by. Unfortunately, my Pimax XR needs the lighthouses up and running before I turn it on, so the awesome work done by [@mann1x]( https://github.com/mann1x ) in his project [Pimax BS Manager](https://github.com/mann1x/pimax_bs_manager) is of litte use to me. This may be different with your particular Pimax HMD.
+This python script helps you switch your Valve Lighthouses V2 on and into stand-by. Unfortunately, my Pimax 5K XR needs the lighthouses up and running before I turn it on, so the awesome work done by [@mann1x]( https://github.com/mann1x ) in his project [Pimax BS Manager](https://github.com/mann1x/pimax_bs_manager) is of little use to me. This may be different with your particular Pimax HMD.
+
+**Note:** In the meantime, there are binary releases for Windows [here](https://github.com/nouser2013/lighthouse-v2-manager/releases).
 
 ## installation & prerequisites
 Make sure that you have the following:
@@ -17,9 +19,11 @@ The script provides three usage options: discovery, turning on and switch to sta
 ### discovery
 If you don't call it with any arguments, it tries to open your BLE device and scans for BLE servers in range. Once found, it looks for the service and characteristic which allow for the power-up and power-down of a lighthouse V2. Look for the MAC addresses and the results on stdout.
 
-**usage:** `python3 .\lighthouse-v2-manager.py`
+Optionally, since version 1.1, you can specify the command line option `-cs` or `--create-shortcuts` with the discovery mode. The script then tries to create suitable shortcuts for your installation and your Lighthouses' MAC addresses. This works with both the script version and the binary stand-alone version.
 
-### turning lighthouses into standby
+**usage:** `python3 .\lighthouse-v2-manager.py [-cs,--create-shortcuts]`
+
+### switch lighthouses into standby
 If you want to switch a lighthouse off ("stand-by"), specify either "off" as first argument and then each MAC address consecutively as further arguments like so:
 
 **usage:** `python3 .\lighthouse-v2-manager.py off aa:aa:aa:aa:aa:aa bb:bb:bb:bb:bb:bb ...`
