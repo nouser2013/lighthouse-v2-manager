@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2633"
+   viewBox="0 0 44.121254 44.454296"
+   version="1.0"
+   sodipodi:docname="lhv2_off.svg"
+   width="44.121254"
+   height="44.454296"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2080"
+     id="namedview18"
+     showgrid="false"
+     inkscape:zoom="7.4146341"
+     inkscape:cx="73.893387"
+     inkscape:cy="-33.032811"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2633" />
+  <defs
+     id="defs2635">
+    <linearGradient
+       id="linearGradient2243"
+       y2="47.547001"
+       gradientUnits="userSpaceOnUse"
+       y1="18.495001"
+       x2="127.2"
+       x1="127.2">
+      <stop
+         id="stop3259"
+         stop-color="#fff"
+         offset="0" />
+      <stop
+         id="stop3261"
+         stop-color="#fff"
+         stop-opacity="0"
+         offset="1" />
+    </linearGradient>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-38.250323,-28.687441)"
+     style="fill-rule:evenodd">
+    <path
+       id="path3676"
+       transform="matrix(0.62849,0,0,0.62849,-351.35,-520.1)"
+       d="m 690.1,908.55 a 35.101,35.101 0 1 1 -70.2,0 35.101,35.101 0 1 1 70.2,0 z"
+       inkscape:connector-curvature="0"
+       style="fill:#ef2929" />
+    <g
+       id="g3750"
+       transform="matrix(0.58241,0,0,0.62445,-298.36,-439.03)"
+       style="fill:#a40000">
+      <path
+         id="path3752"
+         xlink:href="#path22091"
+         transform="matrix(0.93548,0,0,0.93548,3.1009,-64.472)"
+         d="m 649.09,892 c -7.61,2.49 -13.15,9.61 -13.15,18.06 0,10.53 8.54,19.06 19.06,19.06 10.52,0 19.06,-8.53 19.06,-19.06 0,-8.46 -5.56,-15.57 -13.18,-18.06 v 6.81 c 4.06,2.14 6.9,6.34 6.9,11.25 0,7.05 -5.73,12.78 -12.78,12.78 -7.05,0 -12.78,-5.73 -12.78,-12.78 0,-4.9 2.81,-9.11 6.87,-11.25 z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path3754"
+         xlink:href="#path22093"
+         transform="matrix(0.93548,0,0,0.93548,3.1009,-64.472)"
+         d="m 651.78,887.91 v 22.62 h 6.44 v -22.62 z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g3756"
+       transform="matrix(0.58241,0,0,0.58241,-298.36,-406.82)"
+       style="fill:#eeeeec">
+      <path
+         id="path3758"
+         xlink:href="#path22091"
+         transform="matrix(0.93548,0,0,0.93548,3.1009,-64.472)"
+         d="m 649.09,892 c -7.61,2.49 -13.15,9.61 -13.15,18.06 0,10.53 8.54,19.06 19.06,19.06 10.52,0 19.06,-8.53 19.06,-19.06 0,-8.46 -5.56,-15.57 -13.18,-18.06 v 6.81 c 4.06,2.14 6.9,6.34 6.9,11.25 0,7.05 -5.73,12.78 -12.78,12.78 -7.05,0 -12.78,-5.73 -12.78,-12.78 0,-4.9 2.81,-9.11 6.87,-11.25 z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path3760"
+         xlink:href="#path22093"
+         transform="matrix(0.93548,0,0,0.93548,3.1009,-64.472)"
+         d="m 651.78,887.91 v 22.62 h 6.44 v -22.62 z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <path
+       id="path3678"
+       transform="matrix(0.70156,0,0,0.73625,-28.922,17.305)"
+       d="m 149.63,34.779 a 22.43,16.284726 0 1 1 -44.86,0 22.43,16.284726 0 1 1 44.86,0 z"
+       inkscape:connector-curvature="0"
+       style="opacity:0.75;fill:url(#linearGradient2243)" />
+  </g>
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2006-12-08T21:31:15</dc:date>
+        <dc:description>Multicolor power buttons, suitable for UI/web design.</dc:description>
+        <dc:source>http://openclipart.org/detail/1944/multicolor-power-buttons-by-molumen-1944</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>molumen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>button</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>design</rdf:li>
+            <rdf:li>glossy</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>interface</rdf:li>
+            <rdf:li>off</rdf:li>
+            <rdf:li>power</rdf:li>
+            <rdf:li>red</rdf:li>
+            <rdf:li>remix</rdf:li>
+            <rdf:li>switch</rdf:li>
+            <rdf:li>toggle</rdf:li>
+            <rdf:li>webdesign</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
