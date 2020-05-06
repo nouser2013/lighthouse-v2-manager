@@ -8,7 +8,7 @@ __PWR_CHARACTERISTIC = "00001525-1212-efde-1523-785feabcd124"
 __PWR_ON             = bytearray([0x01])
 __PWR_STANDBY        = bytearray([0x00])
 
-command = "discover"
+command = ""
 lh_macs = [] # hard code mac addresses here if you want, otherwise specify in command line
 
 print(" ")
@@ -23,33 +23,19 @@ cmdStr = cmdPath
 if cmdStr.find(".py")>0:
 	cmdStr = '"'+ sys.executable +'" "' + cmdPath + '"'
 
-if len(sys.argv)==1 or sys.argv[1] in ["--create-shortcuts","-cs"]:
-	print(">> MODE: discover suitable V2 lighthouses")
-	print(" ")
-elif sys.argv[1] in ["on","off"]:
+if len(sys.argv)>1 and sys.argv[1] in ["on", "off", "discover"]:
 	command = sys.argv[1]
-	print(">> MODE: switch lighthouses "+ command.upper())
-	lh_macs.extend(sys.argv[2:])
-	for mac in list(lh_macs):
-		if re.match("[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}", mac):
-			continue
-		print("   * Invalid MAC address format: "+mac)
-		lh_macs.remove(mac)
-	if len(lh_macs) == 0:
-		print(" ")
-		print(">> ERROR: no (valid) base station MAC addresses given.")
-		sys.exit()
-	for mac in lh_macs:
-		print("   * "+mac)
+
+if len(sys.argv)==1 or command=="":
+	print(" Invalid or no command given. Usage:")
 	print(" ")
-else:
-	print(" discover lighthouses V2:")
-	print("   "+cmdStr+" [--create-shortcuts, -cs]")
+	print(" * discover lighthouses V2:")
+	print("   "+cmdStr+" discover [--create-shortcuts, -cs]")
 	print(" ")
-	print(" power one or more lighthoses V2 ON:")
+	print(" * power one or more lighthoses V2 ON:")
 	print("   "+cmdStr +" on [MAC1] [MAC2] [...MACn]")
 	print(" ")
-	print(" power one or more lighthoses V2 OFF:")
+	print(" * power one or more lighthoses V2 OFF:")
 	print("   "+cmdStr +" off [MAC1] [MAC2] [...MACn]")
 	print(" ")
 	sys.exit()
@@ -59,6 +45,10 @@ from bleak import discover, BleakClient
 async def run(loop, lh_macs):
 	if command == "discover":
 		lh_macs = []
+		createShortcuts = True if ("-cs" in sys.argv or "--create-shortcuts" in sys.argv) else False
+		print(">> MODE: discover suitable V2 lighthouses")
+		if createShortcuts: print("         and create desktop shortcuts")
+		print(" ")
 		print (">> Discovering BLE devices...")
 		devices = await discover()
 		for d in devices:
@@ -88,9 +78,9 @@ async def run(loop, lh_macs):
 				print(">>        This is likely NOT a suitable Lighthouse V2.")
 				print(" ")
 		if len(lh_macs)>0:
-			print(">> At least one compatible V2 lighthouse was found.")
+			print(">> OK: At least one compatible V2 lighthouse was found.")
 			print(" ")
-			if "--create-shortcuts" in sys.argv or "-cs" in sys.argv:
+			if createShortcuts:
 				print(">> Trying to create Desktop Shortcuts...")
 				import winshell
 				from win32com.client import Dispatch
@@ -122,7 +112,7 @@ async def run(loop, lh_macs):
 				shortcut.save()
 				print("   * OK: LHv2-OFF.lnk was created successfully.")
 			else:
-				print(">> OK, you need to manually create two links, for example on your desktop:")
+				print("   OK, you need to manually create two links, for example on your desktop:")
 				print(" ")
 				print("   To turn your lighthouses ON:")
 				print("    * Link Target: "+ cmdStr +" on "+ " ".join(lh_macs))
@@ -131,7 +121,24 @@ async def run(loop, lh_macs):
 				print("    * Link Target: "+ cmdStr +" off "+ " ".join(lh_macs))
 		else:
 			print(">> Sorry, not suitable V2 Lighthouses found.")
-	else:
+		print(" ")
+
+	if command in ["on", "off"]:
+		print(">> MODE: switch lighthouses "+ command.upper())
+		lh_macs.extend(sys.argv[2:])
+		for mac in list(lh_macs):
+			if re.match("[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}", mac):
+				continue
+			print("   * Invalid MAC address format: "+mac)
+			lh_macs.remove(mac)
+		if len(lh_macs) == 0:
+			print(" ")
+			print(">> ERROR: no (valid) base station MAC addresses given.")
+			print(" ")
+			sys.exit()
+		for mac in lh_macs:
+			print("   * "+mac)
+		print(" ")
 		for mac in lh_macs:
 			print(">> Trying to connect to BLE MAC '"+ mac +"'...")
 			try:
@@ -145,5 +152,6 @@ async def run(loop, lh_macs):
 			except Exception as e:
 				print(">> ERROR: "+ str(e))
 			print(" ")
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run(loop, lh_macs))
