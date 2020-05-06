@@ -15,13 +15,11 @@ print(" ")
 print("=== LightHouse V2 Manager ===")
 print(" ")
 
-cmdPath = os.path.abspath(sys.argv[0])
-cmdFile = os.path.basename(cmdPath)
-if cmdFile.find(" ")>0:
-	cmdFile = '"' + cmdFile +'"'
-cmdStr = cmdPath
+cmdName = os.path.basename(sys.argv[0])
+cmdPath = os.path.abspath(sys.argv[0]).replace(cmdName, "")
+cmdStr  = (cmdPath+cmdName).replace(os.getcwd(), ".")
 if cmdStr.find(".py")>0:
-	cmdStr = '"'+ sys.executable +'" "' + cmdPath + '"'
+	cmdStr = '"'+ sys.executable +'" "' + cmdStr + '"'
 
 if len(sys.argv)>1 and sys.argv[1] in ["on", "off", "discover"]:
 	command = sys.argv[1]
@@ -30,13 +28,13 @@ if len(sys.argv)==1 or command=="":
 	print(" Invalid or no command given. Usage:")
 	print(" ")
 	print(" * discover lighthouses V2:")
-	print("   "+cmdStr+" discover [--create-shortcuts, -cs]")
+	print("   "+ cmdStr +" discover [--create-shortcuts, -cs]")
 	print(" ")
 	print(" * power one or more lighthoses V2 ON:")
-	print("   "+cmdStr +" on [MAC1] [MAC2] [...MACn]")
+	print("   "+ cmdStr +" on [MAC1] [MAC2] [...MACn]")
 	print(" ")
 	print(" * power one or more lighthoses V2 OFF:")
-	print("   "+cmdStr +" off [MAC1] [MAC2] [...MACn]")
+	print("   "+ cmdStr +" off [MAC1] [MAC2] [...MACn]")
 	print(" ")
 	sys.exit()
 
@@ -88,27 +86,27 @@ async def run(loop, lh_macs):
 				path = os.path.join(desktop, "LHv2-ON.lnk")
 				shell = Dispatch('WScript.Shell')
 				shortcut = shell.CreateShortCut(path)
-				if cmdStr.find(".py")>0:
+				if cmdName.find(".py")>0:
 					shortcut.Targetpath = sys.executable
-					shortcut.Arguments = '"' + cmdPath + '" on '+ " ".join(lh_macs)
+					shortcut.Arguments = '"' + cmdName + '" on '+ " ".join(lh_macs)
 				else:
-					shortcut.Targetpath = cmdPath
+					shortcut.Targetpath = '"' + cmdPath + cmdName + '"'
 					shortcut.Arguments = "on "+ " ".join(lh_macs)
-				shortcut.WorkingDirectory = os.path.dirname(cmdPath)
-				shortcut.IconLocation = os.path.dirname(cmdPath) + "\\lhv2_on.ico"
+				shortcut.WorkingDirectory = cmdPath[:-1]
+				shortcut.IconLocation = cmdPath + "lhv2_on.ico"
 				shortcut.save()
 				print("   * OK: LHv2-ON.lnk was created successfully.")
 				path = os.path.join(desktop, "LHv2-OFF.lnk")
 				shell = Dispatch('WScript.Shell')
 				shortcut = shell.CreateShortCut(path)
-				if cmdStr.find(".py")>0:
+				if cmdName.find(".py")>0:
 					shortcut.Targetpath = sys.executable
-					shortcut.Arguments = '"' + cmdPath + '" off '+ " ".join(lh_macs)
+					shortcut.Arguments = '"' + cmdName + '" off '+ " ".join(lh_macs)
 				else:
-					shortcut.Targetpath = cmdPath
+					shortcut.Targetpath = '"' + cmdPath + cmdName + '"'
 					shortcut.Arguments = "off "+ " ".join(lh_macs)
-				shortcut.WorkingDirectory = os.path.dirname(cmdPath)
-				shortcut.IconLocation = os.path.dirname(cmdPath) + "\\lhv2_off.ico"
+				shortcut.WorkingDirectory = cmdPath[:-1]
+				shortcut.IconLocation = cmdPath + "lhv2_off.ico"
 				shortcut.save()
 				print("   * OK: LHv2-OFF.lnk was created successfully.")
 			else:
