@@ -55,3 +55,6 @@ Inside the script, you can edit the list `lh_macs` to contain the MAC addresses 
 
 Still, you can add other MAC addresses dynamically even after you put some in the file itself:
 * `python3 .\lighthouse-v2-manager.py off cc:cc:cc:cc:cc:cc`
+
+## Credits
+* [Enzo Geant](https://github.com/egeant94) for the new on/off icons. Thanks for your contribution.
