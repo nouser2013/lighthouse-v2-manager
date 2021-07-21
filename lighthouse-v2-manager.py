@@ -62,12 +62,15 @@ async def run(loop, lh_macs):
 				continue
 			print (">> Found potential Valve Lighthouse at '"+ d.address +"' with name '"+ d.name +"'...")
 			services = None
-			async with BleakClient(d.address) as client:
-				try:
-					services = await client.get_services()
-				except:
-					print(">> ERROR: could not get services.")
-					continue
+			try:
+				async with BleakClient(d.address) as client:
+					try:
+						services = await client.get_services()
+					except:
+						print(">> ERROR: could not get services.")
+						continue
+			except Exception:
+				continue
 			for s in services:
 				if (s.uuid==__PWR_SERVICE):
 					print("   OK: Service "+ __PWR_SERVICE +" found.")
