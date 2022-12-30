@@ -53,7 +53,7 @@ async def run(loop, lh_macs):
 		devices = await discover()
 		for d in devices:
 			deviceOk = False
-			if d.name.find("LHB-") != 0:
+			if type(d.name) != str or d.name.find("LHB-") != 0:
 				continue
 			print (">> Found potential Valve Lighthouse at '"+ d.address +"' with name '"+ d.name +"'...")
 			services = None
