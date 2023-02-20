@@ -9,6 +9,7 @@ __PWR_SERVICE        = "00001523-1212-efde-1523-785feabcd124"
 __PWR_CHARACTERISTIC = "00001525-1212-efde-1523-785feabcd124"
 __PWR_ON             = bytearray([0x01])
 __PWR_STANDBY        = bytearray([0x00])
+__power_state        = ""
 
 command = ""
 lh_macs = [] # hard code mac addresses here if you want, otherwise specify in command line
@@ -23,7 +24,7 @@ cmdStr  = (cmdPath+cmdName).replace(os.getcwd(), ".")
 if cmdStr.find(".py")>0:
 	cmdStr = '"'+ sys.executable +'" "' + cmdStr + '"'
 
-if len(sys.argv)>1 and sys.argv[1] in ["on", "off", "discover"]:
+if len(sys.argv)>1 and sys.argv[1] in ["on", "off", "discover", "toggle"]:
 	command = sys.argv[1]
 
 if len(sys.argv)==1 or command=="":
@@ -37,6 +38,9 @@ if len(sys.argv)==1 or command=="":
 	print(" ")
 	print(" * power one or more lighthoses V2 OFF:")
 	print("   "+ cmdStr +" off [MAC1] [MAC2] [...MACn]")
+	print(" ")
+	print(" * toggle one or more lighthoses V2 ON or OFF:")
+	print("   "+ cmdStr +" toggle [MAC1] [MAC2] [...MACn]")
 	print(" ")
 	sys.exit()
 
@@ -70,9 +74,21 @@ async def run(loop, lh_macs):
 						if c.uuid==__PWR_CHARACTERISTIC:
 							print("   OK: Characteristic "+ __PWR_CHARACTERISTIC +" found.")
 							print(">> This seems to be a valid V2 Base Station.")
+							print(">> Trying to connect to BLE MAC '"+ d.address +"'...")
+							try:
+								client = BleakClient(d.address, loop=loop)
+								await client.connect()
+								print(">> '"+ d.address +"' connected...")
+								__power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
+								print("Device power state: "+ __power_state.hex())
+								await client.disconnect()
+								print(">> disconnected. ")
+							except Exception as e:
+								print(">> ERROR: "+ str(e))
 							print(" ")
-							lh_macs.append(d.address)
-							deviceOk = True
+						print(" ")
+						lh_macs.append(d.address)
+						deviceOk = True
 			if not deviceOk:
 				print(">> ERROR: Service or Characteristic not found.")
 				print(">>        This is likely NOT a suitable Lighthouse V2.")
@@ -123,7 +139,7 @@ async def run(loop, lh_macs):
 			print(">> Sorry, not suitable V2 Lighthouses found.")
 		print(" ")
 
-	if command in ["on", "off"]:
+	if command in ["on", "off", "toggle"]:
 		print(">> MODE: switch lighthouses "+ command.upper())
 		lh_macs.extend(sys.argv[2:])
 		for mac in list(lh_macs):
@@ -140,18 +156,54 @@ async def run(loop, lh_macs):
 			print("   * "+mac)
 		print(" ")
 		for mac in lh_macs:
-			print(">> Trying to connect to BLE MAC '"+ mac +"'...")
-			try:
-				client = BleakClient(mac, loop=loop)
-				await client.connect()
-				print(">> '"+ mac +"' connected...")
-				await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON if command=="on" else __PWR_STANDBY)
-				print(">> LH switched to '"+ command +"' successfully... ")
-				await client.disconnect()
-				print(">> disconnected. ")
-			except Exception as e:
-				print(">> ERROR: "+ str(e))
-			print(" ")
+			if command.upper() == "TOGGLE":
+				print(">> Trying to connect to BLE MAC '"+ mac +"'...")
+				try:
+					client = BleakClient(mac, loop=loop)
+					await client.connect()
+					print(">> '"+ mac +"' connected...")
+					get_power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
+					print("Getting Basestation power state...")
+					if get_power_state.hex() == "00":
+						print("Basestation is off, turning on.")
+						await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
+					else:
+						print("Basestation is on, putting in standby.")
+						await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
+					await client.disconnect()
+					print(">> disconnected. ")
+					print("Basestation toggled.")
+				except Exception as e:
+					print(">> ERROR: "+ str(e))
+				print(" ")
+			elif command.upper() == "ON":
+				print(">> Trying to connect to BLE MAC '"+ mac +"'...")
+				try:
+					client = BleakClient(mac, loop=loop)
+					await client.connect()
+					print(">> '"+ mac +"' connected...")
+					print("Powering ON...")
+					await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
+					await client.disconnect()
+					print(">> disconnected. ")
+					print("Basestation has been turned on.")
+				except Exception as e:
+					print(">> ERROR: "+ str(e))
+				print(" ")
+			else:
+				print(">> Trying to connect to BLE MAC '"+ mac +"'...")
+				try:
+					client = BleakClient(mac, loop=loop)
+					await client.connect()
+					print(">> '"+ mac +"' connected...")
+					print("Putting in STANDBY...")
+					await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
+					await client.disconnect()
+					print(">> disconnected. ")
+					print("Basestation has been put in standby.")
+				except Exception as e:
+					print(">> ERROR: "+ str(e))
+				print(" ")
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run(loop, lh_macs))
