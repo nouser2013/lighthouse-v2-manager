@@ -1,3 +1,6 @@
+This fork is modified to add a toggle option so you can turn basestations on or off without having to use 2 seperate scripts for it.
+
+
 # Manager for V2 Lighthouses by Valve/HTC
 This python script helps you switch your Valve Lighthouses V2 on and into stand-by. Unfortunately, my Pimax 5K XR needs the lighthouses up and running before I turn it on, so the awesome work done by [@mann1x]( https://github.com/mann1x ) in his project [Pimax BS Manager](https://github.com/mann1x/pimax_bs_manager) is of little use to me. This may be different with your particular Pimax HMD.
 
