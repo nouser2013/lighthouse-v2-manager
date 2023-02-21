@@ -26,7 +26,7 @@ The script provides three usage options: discovery, turning on and switch to sta
 **Note:** if you installed the binary version, simply call the program by executing it. Instead of `python3 .\lighthouse-v2-manager.py` type `lighthouse-v2-manager.exe` in the command prompt window for the commands below.
 
 ### display instructions
-If you call the executable/script with no command line arguments or with an invalid command, the useage instructions are returned. Choose one of the commands `discover`, `on` or `off` to interact with your Lighthouses V2.
+If you call the executable/script with no command line arguments or with an invalid command, the useage instructions are returned. Choose one of the commands `discover`, `on`, `off` or `toggle` to interact with your Lighthouses V2.
 
 **usage:** `python3 .\lighthouse-v2-manager.py`
 
@@ -50,6 +50,12 @@ If you want to switch a lighthouse back on, specify either "on" as first argumen
 **usage:** `python3 .\lighthouse-v2-manager.py on aa:aa:aa:aa:aa:aa bb:bb:bb:bb:bb:bb ...`
 
 The lighthouses LED will power up. As soon as it's stabilized, the LED turns solid green.
+
+### toggle lighthouse states
+If you want to toggle the state of the basestation(s), specify "toggle" as the first argument then each MAC address consecutively as further arguments like so:
+**usage:** `python3 .\lighthouse-v2-manager.py toggle aa:aa:aa:aa:aa:aa bb:bb:bb:bb:bb:bb ...`
+
+The script connects to each basestation specified, then gets if they are active or in standby mode. Then based on the state it will send a command to swap it to the opposite state. So if it is on, it will be toggled to standby, and vice versa. The point of this argument is to reduce the ammount of scripts you would need to just one to turn the basestations on or off.
 
 ### Hard-coding your Lighthouses' MAC addresses
 Inside the script, you can edit the list `lh_macs` to contain the MAC addresses of your lighthouses as strings. Doing so allows a shorter command line interaction:
