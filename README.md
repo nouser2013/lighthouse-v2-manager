@@ -53,6 +53,7 @@ The lighthouses LED will power up. As soon as it's stabilized, the LED turns sol
 
 ### toggle lighthouse states
 If you want to toggle the state of the basestation(s), specify "toggle" as the first argument then each MAC address consecutively as further arguments like so:
+
 **usage:** `python3 .\lighthouse-v2-manager.py toggle aa:aa:aa:aa:aa:aa bb:bb:bb:bb:bb:bb ...`
 
 The script connects to each basestation specified, then gets if they are active or in standby mode. Then based on the state it will send a command to swap it to the opposite state. So if it is on, it will be toggled to standby, and vice versa. The point of this argument is to reduce the ammount of scripts you would need to just one to turn the basestations on or off.
