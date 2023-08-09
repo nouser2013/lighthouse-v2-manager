@@ -10,7 +10,6 @@ __PWR_SERVICE        = "00001523-1212-efde-1523-785feabcd124"
 __PWR_CHARACTERISTIC = "00001525-1212-efde-1523-785feabcd124"
 __PWR_ON             = bytearray([0x01])
 __PWR_STANDBY        = bytearray([0x00])
-__power_state        = ""
 
 command = ""
 lh_macs = [] # hard code mac addresses here if you want, otherwise specify in command line
@@ -83,8 +82,12 @@ async def run(loop, lh_macs):
 								client = BleakClient(d.address, loop=loop)
 								await client.connect()
 								print(">> '"+ d.address +"' connected...")
-								__power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
-								print("Device power state: "+ __power_state.hex())
+								power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
+								print("   Device power state: ", end="")
+								if power_state == __PWR_ON:
+									print("ON")
+								else:
+									print("OFF")
 								await client.disconnect()
 								print(">> disconnected. ")
 							except Exception as e:
@@ -166,9 +169,9 @@ async def run(loop, lh_macs):
 					client = BleakClient(mac, loop=loop)
 					await client.connect()
 					print(">> '"+ mac +"' connected...")
-					get_power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
-					if get_power_state.hex() == "00":
+					power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
 					print("   Getting Basestation power state...")
+					if power_state == __PWR_STANDBY:
 						print("   Basestation is off, turning on.")
 						await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
 					else:
