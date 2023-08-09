@@ -103,6 +103,8 @@ async def run(loop, lh_macs):
 				print(" ")
 		if len(lh_macs)>0:
 			print(">> OK: At least one compatible V2 lighthouse was found.")
+			for mac in lh_macs:
+				print("   * " + mac)
 			print(" ")
 			if createShortcuts:
 				print(">> Trying to create Desktop Shortcuts...")
