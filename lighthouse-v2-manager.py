@@ -4,6 +4,7 @@ import asyncio
 import sys
 import re
 import os
+import bleak
 
 __PWR_SERVICE        = "00001523-1212-efde-1523-785feabcd124"
 __PWR_CHARACTERISTIC = "00001525-1212-efde-1523-785feabcd124"
