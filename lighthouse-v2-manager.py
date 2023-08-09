@@ -93,9 +93,10 @@ async def run(loop, lh_macs):
 							except Exception as e:
 								print(">> ERROR: "+ str(e))
 							print(" ")
-						print(" ")
-						lh_macs.append(d.address)
-						deviceOk = True
+							lh_macs.append(d.address)
+							deviceOk = True
+							break
+					print(" ")
 			if not deviceOk:
 				print(">> ERROR: Service or Characteristic not found.")
 				print(">>        This is likely NOT a suitable Lighthouse V2.")
