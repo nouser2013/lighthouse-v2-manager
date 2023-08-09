@@ -4,7 +4,7 @@ import asyncio
 import sys
 import re
 import os
-import bleak
+from bleak import BleakScanner
 
 __PWR_SERVICE        = "00001523-1212-efde-1523-785feabcd124"
 __PWR_CHARACTERISTIC = "00001525-1212-efde-1523-785feabcd124"
@@ -55,7 +55,7 @@ async def run(loop, lh_macs):
 		if createShortcuts: print("         and create desktop shortcuts")
 		print(" ")
 		print (">> Discovering BLE devices...")
-		devices = await discover()
+		devices = await BleakScanner.discover()
 		for d in devices:
 			deviceOk = False
 			if type(d.name) != str or d.name.find("LHB-") != 0:
@@ -65,7 +65,7 @@ async def run(loop, lh_macs):
 			try:
 				async with BleakClient(d.address) as client:
 					try:
-						services = await client.get_services()
+						services = client.services
 					except:
 						print(">> ERROR: could not get services.")
 						continue
