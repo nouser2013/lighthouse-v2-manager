@@ -4,6 +4,7 @@ import asyncio
 import sys
 import re
 import os
+import time
 from bleak import BleakScanner, BleakClient
 
 __PWR_SERVICE = "00001523-1212-efde-1523-785feabcd124"
@@ -194,7 +195,14 @@ async def run(loop, lh_macs):
                     await client.connect()
                     print(">> '" + mac + "' connected...")
                     print("   Powering ON...")
-                    await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
+                    for i in range(3):
+                        await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
+                        time.sleep(0.5)
+                        power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
+                        if power_state == __PWR_STANDBY:
+                            print("   retrying....")
+                        else:
+                            break
                     await client.disconnect()
                     print(">> disconnected. ")
                     print("   LightHouse has been turned on.")
@@ -208,7 +216,14 @@ async def run(loop, lh_macs):
                     await client.connect()
                     print(">> '" + mac + "' connected...")
                     print("   Putting in STANDBY...")
-                    await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
+                    for i in range(3):
+                        await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
+                        time.sleep(0.5)
+                        power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
+                        if power_state == __PWR_ON:
+                            print("   retrying....")
+                        else:
+                            break
                     await client.disconnect()
                     print(">> disconnected. ")
                     print("   LightHouse has been put in standby.")
