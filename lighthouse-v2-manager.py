@@ -30,16 +30,16 @@ if len(sys.argv)>1 and sys.argv[1] in ["on", "off", "discover", "toggle"]:
 if len(sys.argv)==1 or command=="":
 	print(" Invalid or no command given. Usage:")
 	print(" ")
-	print(" * discover lighthouses V2:")
+	print(" * discover LightHouse V2:")
 	print("   "+ cmdStr +" discover [--create-shortcuts, -cs]")
 	print(" ")
-	print(" * power one or more lighthoses V2 ON:")
+	print(" * power one or more LightHouse V2 ON:")
 	print("   "+ cmdStr +" on [MAC1] [MAC2] [...MACn]")
 	print(" ")
-	print(" * power one or more lighthoses V2 OFF:")
+	print(" * power one or more LightHouse V2 OFF:")
 	print("   "+ cmdStr +" off [MAC1] [MAC2] [...MACn]")
 	print(" ")
-	print(" * toggle one or more lighthoses V2 ON or OFF:")
+	print(" * toggle one or more LightHouse V2 ON or OFF:")
 	print("   "+ cmdStr +" toggle [MAC1] [MAC2] [...MACn]")
 	print(" ")
 	sys.exit()
@@ -50,7 +50,7 @@ async def run(loop, lh_macs):
 	if command == "discover":
 		lh_macs = []
 		createShortcuts = True if ("-cs" in sys.argv or "--create-shortcuts" in sys.argv) else False
-		print(">> MODE: discover suitable V2 lighthouses")
+		print(">> MODE: discover suitable LightHouse V2")
 		if createShortcuts: print("         and create desktop shortcuts")
 		print(" ")
 		print (">> Discovering BLE devices...")
@@ -59,7 +59,7 @@ async def run(loop, lh_macs):
 			deviceOk = False
 			if type(d.name) != str or d.name.find("LHB-") != 0:
 				continue
-			print (">> Found potential Valve Lighthouse at '"+ d.address +"' with name '"+ d.name +"'...")
+			print (">> Found potential Valve LightHouse at '"+ d.address +"' with name '"+ d.name +"'...")
 			services = None
 			try:
 				async with BleakClient(d.address) as client:
@@ -76,7 +76,7 @@ async def run(loop, lh_macs):
 					for c in s.characteristics:
 						if c.uuid==__PWR_CHARACTERISTIC:
 							print("   OK: Characteristic "+ __PWR_CHARACTERISTIC +" found.")
-							print(">> This seems to be a valid V2 Base Station.")
+							print(">> This seems to be a valid LightHouse V2.")
 							print(">> Trying to connect to BLE MAC '"+ d.address +"'...")
 							try:
 								client = BleakClient(d.address, loop=loop)
@@ -99,10 +99,10 @@ async def run(loop, lh_macs):
 					print(" ")
 			if not deviceOk:
 				print(">> ERROR: Service or Characteristic not found.")
-				print(">>        This is likely NOT a suitable Lighthouse V2.")
+				print(">>        This is likely NOT a suitable LightHouse V2.")
 				print(" ")
 		if len(lh_macs)>0:
-			print(">> OK: At least one compatible V2 lighthouse was found.")
+			print(">> OK: At least one compatible LightHouse V2 was found.")
 			for mac in lh_macs:
 				print("   * " + mac)
 			print(" ")
@@ -140,17 +140,17 @@ async def run(loop, lh_macs):
 			else:
 				print("   OK, you need to manually create two links, for example on your desktop:")
 				print(" ")
-				print("   To turn your lighthouses ON:")
+				print("   To turn your LightHouse ON:")
 				print("    * Link Target: "+ cmdStr +" on "+ " ".join(lh_macs))
 				print(" ")
-				print("   To turn your lighthouses OFF:")
+				print("   To turn your LightHouse OFF:")
 				print("    * Link Target: "+ cmdStr +" off "+ " ".join(lh_macs))
 		else:
-			print(">> Sorry, not suitable V2 Lighthouses found.")
+			print(">> Sorry, not suitable LightHouse V2 found.")
 		print(" ")
 
 	if command in ["on", "off", "toggle"]:
-		print(">> MODE: switch lighthouses "+ command.upper())
+		print(">> MODE: switch LightHouse "+ command.upper())
 		lh_macs.extend(sys.argv[2:])
 		for mac in list(lh_macs):
 			if re.match("[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}", mac):
@@ -159,7 +159,7 @@ async def run(loop, lh_macs):
 			lh_macs.remove(mac)
 		if len(lh_macs) == 0:
 			print(" ")
-			print(">> ERROR: no (valid) base station MAC addresses given.")
+			print(">> ERROR: no (valid) LightHouse MAC addresses given.")
 			print(" ")
 			sys.exit()
 		for mac in lh_macs:
@@ -173,16 +173,16 @@ async def run(loop, lh_macs):
 					await client.connect()
 					print(">> '"+ mac +"' connected...")
 					power_state = await client.read_gatt_char(__PWR_CHARACTERISTIC)
-					print("   Getting Basestation power state...")
+					print("   Getting LightHouse power state...")
 					if power_state == __PWR_STANDBY:
-						print("   Basestation is off, turning on.")
+						print("   LightHouse is off, turning on.")
 						await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
 					else:
-						print("   Basestation is on, putting in standby.")
+						print("   LightHouse is on, putting in standby.")
 						await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
 					await client.disconnect()
 					print(">> disconnected. ")
-					print("   Basestation toggled.")
+					print("   LightHouse toggled.")
 				except Exception as e:
 					print(">> ERROR: "+ str(e))
 				print(" ")
@@ -196,7 +196,7 @@ async def run(loop, lh_macs):
 					await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_ON)
 					await client.disconnect()
 					print(">> disconnected. ")
-					print("   Basestation has been turned on.")
+					print("   LightHouse has been turned on.")
 				except Exception as e:
 					print(">> ERROR: "+ str(e))
 				print(" ")
@@ -210,7 +210,7 @@ async def run(loop, lh_macs):
 					await client.write_gatt_char(__PWR_CHARACTERISTIC, __PWR_STANDBY)
 					await client.disconnect()
 					print(">> disconnected. ")
-					print("   Basestation has been put in standby.")
+					print("   LightHouse has been put in standby.")
 				except Exception as e:
 					print(">> ERROR: "+ str(e))
 				print(" ")
